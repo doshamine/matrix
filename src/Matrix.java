@@ -26,16 +26,38 @@ public class Matrix {
         }
     }
 
-    public void turnClockwise() {
-        int[][] newValues = new int[this.width][this.height];
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < this.width; j++) {
-                newValues[i][j] = this.values[j][this.height - i - 1];
+    public void turn(RotationType rotation) {
+        int newHeight = this.height;
+        int newWidth = this.width;
+
+        if (rotation != RotationType.REFLECTION) {
+            newHeight = this.width;
+            newWidth = this.height;
+        }
+
+        int[][] newValues = new int[newHeight][newWidth];
+
+        if (rotation == RotationType.CLOCKWISE) {
+            for (int i = 0; i < newHeight; i++) {
+                for (int j = 0; j < newWidth; j++) {
+                    newValues[i][j] = this.values[this.height-1-j][i];
+                }
+            }
+        } else if (rotation == RotationType.COUNTERCLOCKWISE) {
+            for (int i = 0; i < newHeight; i++) {
+                for (int j = 0; j < newWidth; j++) {
+                    newValues[i][j] = this.values[j][this.width-1-i];;
+                }
+            }
+        } else {
+            for (int i = 0; i < newHeight; i++) {
+                newValues[i] = this.values[this.height-1-i];
             }
         }
+
         this.values = newValues;
-        this.width = this.height;
-        this.height = newValues.length;
+        this.height = newHeight;
+        this.width = newWidth;
     }
 
     @Override
@@ -43,7 +65,7 @@ public class Matrix {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                sb.append(this.values[i][j]).append(" ");
+                sb.append(this.values[i][j]).append("\t");
             }
             sb.append("\n");
         }

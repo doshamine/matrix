@@ -1,0 +1,3 @@
+public enum RotationType {
+    CLOCKWISE, COUNTERCLOCKWISE, REFLECTION
+}
